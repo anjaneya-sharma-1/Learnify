@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const fetchPackages = createAsyncThunk('packages/fetchPackages', async () => {
   const response = await axios.get('/api/packages');
+  console.log('API response:', response.data);
   return response.data;
 });
 

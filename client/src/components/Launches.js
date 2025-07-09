@@ -17,7 +17,7 @@ const Launches = () => {
 
   return (
     <div className="launches-container">
-      {packages.map((pkg, index) => (
+      {Array.isArray(packages) && packages.map((pkg, index) => (
         <div key={index} >
           <Link to={`/packages/${pkg.id}`} className="launch-link">
             <img src={pkg.imageLink} alt={pkg.title} className="launch-image" />  
