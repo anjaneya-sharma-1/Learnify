@@ -29,7 +29,7 @@ const RECAPTCHA_SECRET_KEY = '6Ldph_MpAAAAAHAjAMC_jZieY31US5E7ZV0yVE4d';
 
 
 
-mongoose.connect('mongodb://localhost:27017/Ipmat', {
+mongoose.connect('mongodb+srv://user1:user1@learnify.wka9ugr.mongodb.net/?retryWrites=true&w=majority&appName=Learnify', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
