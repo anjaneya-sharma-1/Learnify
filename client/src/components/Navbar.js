@@ -12,24 +12,28 @@ const Navbar = () => {
   const userData = useSelector(getUserData);
   return (
     <div className='nav'>
+      <div className='nav-left'>
+        <NavLink to="/">
+          <img src={process.env.PUBLIC_URL + '/logo-long.png'} alt="Learnify Logo" className="navbar-logo-long" />
+        </NavLink>
+      </div>
       <div>
-      <NavLink className="navlinks" to="/">Home</NavLink>
-      <NavLink className="navlinks" to="/lectures">Lectures</NavLink>
-      <NavLink className="navlinks" to="/notes">Notes</NavLink>
-      <NavLink className="navlinks" to="/quiz">Quizzes</NavLink>
+        <NavLink className="navlinks" to="/">Home</NavLink>
+        <NavLink className="navlinks" to="/lectures">Lectures</NavLink>
+        <NavLink className="navlinks" to="/notes">Notes</NavLink>
+        <NavLink className="navlinks" to="/quiz">Quizzes</NavLink>
       </div>
       <div className='searchbox'>
         <input type='text' name='search' placeholder='Explore'></input>
-      {searchIcon}
+        {searchIcon}
       </div>
       <NavLink to="/account">
-      <div className='account'>
-      {profileIcon}
-      <p>{userData.username}</p>
-      </div>
+        <div className='account'>
+          {profileIcon}
+          <p>{userData.username}</p>
+        </div>
       </NavLink>
-      
-   </div>
+    </div>
   )
 }
 

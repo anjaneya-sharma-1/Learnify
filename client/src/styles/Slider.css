@@ -1,6 +1,242 @@
-/* Slider.css */
-.custom-carousel .carousel-image {
-    max-height: 500px;
-    object-fit: cover;
+.slider-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+  border: none;
+  background: #000;
+}
+
+.custom-carousel {
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.carousel-item-custom {
+  height: 70vh;
+  min-height: 500px;
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item-custom:hover .carousel-image {
+  transform: scale(1.03);
+}
+
+.slider-dark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 1;
+}
+
+.slider-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 0 2rem;
+}
+
+.slider-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.slider-title-accent {
+  color: #3ecf8e;
+  display: inline-block;
+}
+
+.slider-subtitle {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: #f3f3f3;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.slider-btn {
+  display: inline-block;
+  background: #3ecf8e;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.85rem 2.2rem;
+  border-radius: 32px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.slider-btn:hover {
+  background: #2ebd7f;
+  box-shadow: 0 4px 16px rgba(44,62,80,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Remove old green controls and indicators */
+.custom-carousel .carousel-control-prev,
+.custom-carousel .carousel-control-next {
+  background: rgba(0,0,0,0.25);
+  border-radius: 50%;
+  border: none;
+  width: 48px;
+  height: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.85;
+}
+.custom-carousel .carousel-control-prev:hover,
+.custom-carousel .carousel-control-next:hover {
+  background: rgba(0,0,0,0.45);
+  opacity: 1;
+}
+.custom-carousel .carousel-control-prev-icon,
+.custom-carousel .carousel-control-next-icon {
+  filter: invert(1);
+  width: 22px;
+  height: 22px;
+}
+.custom-carousel .carousel-indicators [data-bs-target] {
+  background-color: #fff;
+  opacity: 0.7;
+}
+.custom-carousel .carousel-indicators .active {
+  background-color: #3ecf8e;
+  opacity: 1;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #66cdaa;
+  animation: pulse 2s infinite;
+  animation-delay: var(--delay, 0s);
+  border: 1px solid #ffffff;
+}
+
+.dot:nth-child(1) { --delay: 0s; }
+.dot:nth-child(2) { --delay: 0.3s; }
+.dot:nth-child(3) { --delay: 0.6s; }
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+    background: #ffffff;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .carousel-item-custom {
+    height: 50vh;
+    min-height: 320px;
+  }
+  .slider-title {
+    font-size: 2rem;
+  }
+  .slider-content {
+    padding: 0 0.5rem;
   }
   
+  .custom-carousel .carousel-control-prev,
+  .custom-carousel .carousel-control-next {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .custom-carousel .carousel-control-prev {
+    left: 15px;
+  }
+  
+  .custom-carousel .carousel-control-next {
+    right: 15px;
+  }
+  
+  .custom-carousel .carousel-control-prev-icon,
+  .custom-carousel .carousel-control-next-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .slider-wrapper {
+    border-radius: 15px;
+  }
+  
+  .custom-carousel {
+    border-radius: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-item-custom {
+    height: 50vh;
+    min-height: 300px;
+  }
+  
+  .slider-wrapper {
+    border-radius: 10px;
+  }
+  
+  .custom-carousel {
+    border-radius: 10px;
+  }
+  
+  .custom-carousel .carousel-indicators {
+    bottom: 15px;
+  }
+  
+  .custom-carousel .carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    margin: 0 4px;
+  }
+}

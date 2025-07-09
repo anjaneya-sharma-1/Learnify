@@ -40,7 +40,7 @@ function App() {
       <Route path="account/signup" element={<Signup />} />
       <Route path="/lectures" element={<LecturePage />} />
       <Route path="account/login" element={<Login />} />
-      <Route path="packages" element={<Package title="Boom Boom PAckage"  description="However, it's important to remember that Michael's actions are the culmination of careful planning and strategic thinking. While it may appear sudden, the groundwork for this resolution is laid throughout the film, as Michael observes and learns from his father's methods and the strategies employed by his enemies."
+      <Route path="packages" element={<Package title="Deluxe Package"  description="However, it's important to remember that Michael's actions are the culmination of careful planning and strategic thinking. While it may appear sudden, the groundwork for this resolution is laid throughout the film, as Michael observes and learns from his father's methods and the strategies employed by his enemies."
         imageLink= "https://picsum.photos/200" cost="1"  quizIds={[1,2]}  notesIds={[]}  lectureIds={[]} liveIds={[]}/>} />
       <Route path="packages/:packageId" element={<Package/>}/>
       <Route path="/*" element={<Navigate to="/" />} />

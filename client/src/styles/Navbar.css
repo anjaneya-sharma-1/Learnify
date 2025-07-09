@@ -75,3 +75,20 @@
     fill: grey;
 }
 
+.navbar-logo-long {
+  height: 38px;
+  width: auto;
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  z-index: 10;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  margin-right: 1.2vmax;
+}
+
