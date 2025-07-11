@@ -1,5 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
+
+// Load environment variables
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(cors());
@@ -8,6 +13,7 @@ const Razorpay = require('razorpay');
 const mongoose = require('mongoose');
 const Quiz = require('./quizModel');
 const Notes = require('./notesModel');
+const Lecture = require('./lectureModel');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
@@ -19,19 +25,32 @@ const Package = require('./packagesDataModel');
 
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: process.env.FRONTEND_URL || "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true,
     })
 );
-const JWT_SECRET = 'password';
-const RECAPTCHA_SECRET_KEY = '6Ldph_MpAAAAAHAjAMC_jZieY31US5E7ZV0yVE4d';
+const JWT_SECRET = process.env.JWT_SECRET || 'password';
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
 
 
-mongoose.connect('mongodb+srv://user1:user1@learnify.wka9ugr.mongodb.net/?retryWrites=true&w=majority&appName=Learnify', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://user1:user1@learnify.wka9ugr.mongodb.net/Learnify?retryWrites=true&w=majority&appName=Learnify', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+});
+
+// Add database connection event listeners
+mongoose.connection.on('connected', () => {
+    console.log('✅ Connected to MongoDB successfully');
+});
+
+mongoose.connection.on('error', (error) => {
+    console.error('❌ MongoDB connection error:', error);
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.log('🔌 Disconnected from MongoDB');
 });
 
 app.get('/api/quizzes', async (req, res) => {
@@ -80,11 +99,30 @@ app.get('/api/notes/:noteId', async (req, res) => {
     }
 });
 
+// Lecture endpoints
+app.get('/api/lectures', async (req, res) => {
+    try {
+        const lectures = await Lecture.find();
+        res.json(lectures);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
-
-
-
-
+app.get('/api/lecture/:lectureId', async (req, res) => {
+    const lectureId = req.params.lectureId;
+    try {
+        const lecture = await Lecture.findOne({ id: lectureId });
+        if (!lecture) {
+            return res.status(404).json({ error: 'Lecture not found' });
+        }
+        res.json(lecture);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 
 
 
@@ -252,8 +290,8 @@ app.get('/api/packages', async (req, res) => {
 
 
 const razorpay = new Razorpay({
-    key_id: 'rzp_test_tBCKVt4YuwuDxc',
-    key_secret: '4SknPkeSFinXksv51v2P1J7W'
+    key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_tBCKVt4YuwuDxc',
+    key_secret: process.env.RAZORPAY_KEY_SECRET || '4SknPkeSFinXksv51v2P1J7W'
 });
 
 app.post('/api/create-order', async (req, res) => {
@@ -275,7 +313,7 @@ app.post('/api/create-order', async (req, res) => {
 app.post('/api/verify-payment', async (req, res) => {
     const { paymentId, orderId, signature, email ,quizIds, notesIds, lectureIds } = req.body;
 
-    const hmac = crypto.createHmac('sha256', '4SknPkeSFinXksv51v2P1J7W');
+    const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || '4SknPkeSFinXksv51v2P1J7W');
     hmac.update(orderId + "|" + paymentId);
     const generatedSignature = hmac.digest('hex');
 
@@ -305,10 +343,50 @@ app.post('/api/verify-payment', async (req, res) => {
     }
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'OK', 
+        message: 'Server is running',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
+});
 
+// Root endpoint
+app.get('/', (req, res) => {
+    res.json({ 
+        message: 'Learnify API Server',
+        version: '1.0.0',
+        status: 'Active'
+    });
+});
 
+const server = app.listen(PORT, () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`📡 Health check available at: /health`);
+});
 
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+        console.log('HTTP server closed');
+        mongoose.connection.close(false, () => {
+            console.log('MongoDB connection closed');
+            process.exit(0);
+        });
+    });
+});
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+process.on('SIGINT', () => {
+    console.log('SIGINT signal received: closing HTTP server');
+    server.close(() => {
+        console.log('HTTP server closed');
+        mongoose.connection.close(false, () => {
+            console.log('MongoDB connection closed');
+            process.exit(0);
+        });
+    });
 });

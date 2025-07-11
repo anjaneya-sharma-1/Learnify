@@ -33,6 +33,5 @@ const packageSchema = new mongoose.Schema({
   }]
 });
 
-const Package = mongoose.model('Package', packageSchema);
-
+const Package = mongoose.model('packages', packageSchema);
 module.exports = Package;
