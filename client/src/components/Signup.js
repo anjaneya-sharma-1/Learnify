@@ -6,6 +6,7 @@ import {Box} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {createTheme} from '@mui/material/styles';
+import API_BASE_URL from '../config/api';
 
 const theme = createTheme({
   palette: {
@@ -67,7 +68,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/signup', form);
+      const response = await axios.post(`${API_BASE_URL}/api/signup`, form);
       console.log(response.data);
       navigate('account/login');
     } catch (error) {

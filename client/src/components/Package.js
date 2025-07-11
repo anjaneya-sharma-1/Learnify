@@ -7,6 +7,7 @@ import '../styles/Package.css';
 import { fetchQuizzesData} from '../redux/quizzesDataSlice';
 import { fetchNotesData } from '../redux/notesDataSlice';
 import Loading from './Loading';
+import API_BASE_URL from '../config/api';
 
 const DropdownArrow  =<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>;
 const UpArrow = <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></svg>;
@@ -30,7 +31,7 @@ const Package = () => {
     });
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/packages/${packageId}`)
+        fetch(`${API_BASE_URL}/api/packages/${packageId}`)
             .then((response) => response.json())
             .then((data) => {
                 setPackageData(data);
@@ -106,7 +107,7 @@ const Package = () => {
         }
 
         try {
-            const orderUrl = '/api/create-order';
+            const orderUrl = `${API_BASE_URL}/api/create-order`;
             const { data } = await axios.post(orderUrl, { amount: packageData.cost * 100 }); // amount in paise
 
             const options = {
@@ -121,7 +122,7 @@ const Package = () => {
                     const paymentId = response.razorpay_payment_id;
                     const orderId = response.razorpay_order_id;
                     const signature = response.razorpay_signature;
-                    const verifyUrl = '/api/verify-payment';
+                    const verifyUrl = `${API_BASE_URL}/api/verify-payment`;
                     const email = userData.email;
                     const { data } = await axios.post(verifyUrl, { paymentId, orderId, signature, email, quizIds: packageData.quizIds, notesIds: packageData.notesIds, lectureIds: packageData.lectureIds });
                     if (data.success) {

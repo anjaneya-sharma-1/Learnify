@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createSelector } from "@reduxjs/toolkit";
-import axios from 'axios';
+import apiClient from '../config/apiClient';
 
 export const fetchLectures = createAsyncThunk('lectures/fetchLectures', async () => {
-  const response = await axios.get('/api/lectures');
+  const response = await apiClient.get('/api/lectures');
   return response.data;
 });
 
 export const fetchLectureById = createAsyncThunk('lectures/fetchLectureById', async (lectureId) => {
-  const response = await axios.get(`/api/lecture/${lectureId}`);
+  const response = await apiClient.get(`/api/lecture/${lectureId}`);
   return response.data;
 });
 

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Quiz from './Quiz';
 import { useParams } from 'react-router-dom';
 import Result from './Result';
+import API_BASE_URL from '../config/api';
 
 const QuizTaker = () => {
   const right = useRef(0);
@@ -13,7 +14,7 @@ const QuizTaker = () => {
   const { quizId } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/quiz/${quizId}`)
+    fetch(`${API_BASE_URL}/api/quiz/${quizId}`)
       .then((response) => response.json())
       .then((qdata) => setAnswers(qdata.data.answers))
       .catch((error) => console.error('Error fetching quiz:', error));

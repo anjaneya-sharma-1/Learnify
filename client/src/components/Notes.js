@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import '../styles/Notes.css';
 import Loading from './Loading';
+import API_BASE_URL from '../config/api';
 
 const Notes = () => {
   const [notesLink, setNotesLink] = useState(null);
@@ -23,7 +24,7 @@ const Notes = () => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/notes/${noteId}`)
+    fetch(`${API_BASE_URL}/api/notes/${noteId}`)
       .then((response) => response.json())
       .then((data) => {
         setNotesLink(data.link);

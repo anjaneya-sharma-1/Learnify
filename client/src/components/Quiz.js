@@ -3,6 +3,7 @@ import Question from './Question';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import '../styles/Quiz.css';
+import API_BASE_URL from '../config/api';
 
 const Quiz = ({ onSubmit }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -27,7 +28,7 @@ const Quiz = ({ onSubmit }) => {
       return;
     }
 
-    fetch(`http://localhost:3000/api/quiz/${quizId}`)
+    fetch(`${API_BASE_URL}/api/quiz/${quizId}`)
       .then((response) => response.json())
       .then((qdata) => {
         setQuizData(qdata.data.questions);

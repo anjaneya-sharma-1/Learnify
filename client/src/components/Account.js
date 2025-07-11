@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, getUserData } from '../redux/userDataSlice';
 import Cookies from 'js-cookie';  // Import js-cookie for handling cookies
+import API_BASE_URL from '../config/api';
 import '../styles/Account.css';
 
 const theme = createTheme({
@@ -95,8 +96,8 @@ const AuthForm = ({ isSignup, handleSwitch }) => {
 
     try {
       const response = isSignup
-        ? await axios.post('http://localhost:5000/api/signup', form)
-        : await axios.post('http://localhost:5000/api/login', form);
+        ? await axios.post(`${API_BASE_URL}/api/signup`, form)
+        : await axios.post(`${API_BASE_URL}/api/login`, form);
 
       const { success, userData, message, token } = response.data;
       console.log(success);

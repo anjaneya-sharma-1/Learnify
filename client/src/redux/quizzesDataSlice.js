@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import API_BASE_URL from '../config/api';
 
 const initialState = {
     freeQuizzes: [],
@@ -8,7 +9,7 @@ const initialState = {
 };
 
 export const fetchQuizzesData = createAsyncThunk('quizzesData/fetchQuizzesData', async () => {
-    const response = await fetch('http://localhost:5000/api/quizzes');
+    const response = await fetch(`${API_BASE_URL}/api/quizzes`);
     const data = await response.json();
 
 

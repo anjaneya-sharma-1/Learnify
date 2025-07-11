@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import API_BASE_URL from '../config/api';
 
 const initialState = {
   username: 'Guest',
@@ -19,7 +20,7 @@ export const checkUserFromCookies = createAsyncThunk(
 
       if (token) {
         // Make request to get user data
-        const response = await axios.get('http://localhost:5000/user', {
+        const response = await axios.get(`${API_BASE_URL}/user`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
